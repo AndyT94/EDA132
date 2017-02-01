@@ -28,11 +28,18 @@ public class Board {
 	}
 
 	public Board(Board other) {
-		this.board = other.board;
+		board = new int[10][10];
+		for(int i = 0; i < other.board.length; i++) {
+			for(int j = 0; j < other.board.length; j++) {
+				board[i][j] = other.board[i][j];
+			}
+		}
 	}
 	
 	public void print() {
+		System.out.println(" abcdefgh");
 		for (int i = 1; i < 9; i++) {
+			System.out.print(i);
 			for (int j = 1; j < 9; j++) {
 				String toPrint = "";
 				switch (board[i][j]) {
@@ -53,7 +60,7 @@ public class Board {
 	}
 
 	public boolean isLegalMove(int x, int y, int color) {
-		if (x > 8 || x < 1 || y > 8 || y < 1 && board[x][y] != EMPTY) {
+		if (x > 8 || x < 1 || y > 8 || y < 1 || board[x][y] != EMPTY) {
 			return false;
 		}
 
@@ -69,7 +76,6 @@ public class Board {
 	}
 
 	private boolean checkLine(int x, int y, int i, int j, int color) {
-		System.out.println("i: " + i  + " j: " + j);
 		int a = x + i;
 		int b = y + j;
 		while (board[a][b] == getOpponent(color)) {
@@ -151,10 +157,10 @@ public class Board {
 		for (int i = 1; i < 9; i++) {
 			for (int j = 1; j < 9; j++) {
 				if(isLegalMove(i, j, color)) {
-					return true;
+					return false;
 				}
 			}
 		}
-		return false;
+		return true;
 	}
 }
