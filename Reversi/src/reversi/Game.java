@@ -7,9 +7,9 @@ public class Game {
 		Board b = new Board();
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("Welcome! What is the preferred thinking time for the bot?");
+		System.out.println("Welcome! What is the preferred thinking time for the bot? (seconds)");
 		int thinkTime = sc.nextInt();
-		Alphabeta ab = new Alphabeta(thinkTime * 1000);
+		Alphabeta ab = new Alphabeta(thinkTime);
 		System.out.println("Setting thinking time for bot to: " + thinkTime + " seconds!");
 		System.out.println("========================================");
 		b.print();
@@ -17,8 +17,7 @@ public class Game {
 
 		boolean black = !b.terminalTest(Board.BLACK);
 		boolean white = !b.terminalTest(Board.WHITE);
-		while ( black || white ) {
-			System.out.println(black +" " + white);
+		while (black || white) {
 			if (black) {
 				System.out.println("========================================");
 				System.out.println("What is your next move?");
@@ -48,7 +47,9 @@ public class Game {
 			black = !b.terminalTest(Board.BLACK);
 			white = !b.terminalTest(Board.WHITE);
 		}
-
+		System.out.println("Game over!");
+		System.out.println("White: " + b.numberOfColor(Board.WHITE) + " Black: " + b.numberOfColor(Board.BLACK));
+		sc.close();
 	}
 
 	private static boolean handleInput(String userMove, Board b) {
