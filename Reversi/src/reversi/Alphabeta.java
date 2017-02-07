@@ -6,6 +6,7 @@ import java.util.List;
 public class Alphabeta {
 	private long thinkTime;
 	private long startTime;
+	//private static final int CUTOFF = ;
 	
 	public Alphabeta(long thinkTime) {
 		this.thinkTime = thinkTime;

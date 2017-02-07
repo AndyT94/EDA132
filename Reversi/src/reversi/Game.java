@@ -15,9 +15,10 @@ public class Game {
 		b.print();
 		System.out.println("You are playing as black");
 
-		boolean black = false;
-		boolean white = false;
-		while ((black = !b.terminalTest(Board.BLACK)) || (white = !b.terminalTest(Board.WHITE)) ) {
+		boolean black = !b.terminalTest(Board.BLACK);
+		boolean white = !b.terminalTest(Board.WHITE);
+		while ( black || white ) {
+			System.out.println(black +" " + white);
 			if (black) {
 				System.out.println("========================================");
 				System.out.println("What is your next move?");
@@ -44,6 +45,8 @@ public class Game {
 			} else {
 				System.out.println("No valid move(s) left. Passing turn!");
 			}
+			black = !b.terminalTest(Board.BLACK);
+			white = !b.terminalTest(Board.WHITE);
 		}
 
 	}

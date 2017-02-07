@@ -23,8 +23,8 @@ public class Board {
 		board = new int[10][10];
 		board[4][4] = WHITE;
 		board[4][5] = BLACK;
-		board[5][4] = WHITE;
-		board[5][5] = BLACK;
+		board[5][5] = WHITE;
+		board[5][4] = BLACK;
 	}
 
 	public Board(Board other) {
