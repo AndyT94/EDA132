@@ -13,4 +13,11 @@ public class Relation {
 		this.data = data;
 	}
 	
+	public List<Attribute> getAttributes() {
+		return attributes;
+	}
+	
+	public List<Data> getData() {
+		return data;
+	}
 }
