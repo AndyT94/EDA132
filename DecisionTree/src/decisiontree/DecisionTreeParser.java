@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 
 public class DecisionTreeParser {
-	public static Relation parse(String file, String goal) {
+	public static Relation parse(String file) {
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(file));
 			String line;
@@ -37,7 +37,10 @@ public class DecisionTreeParser {
 						for(int i = 0; i < data_file.length; i++) {
 							mapping.put(attributes.get(i), data_file[i]);
 						}
-						data.add(new Data(mapping));
+						Attribute goal_attr = attributes.get(split.length - 1);
+						String goal_value = split[split.length - 1];
+						Goal goal = new Goal(goal_attr, goal_value);
+						data.add(new Data(mapping, goal));
 					}
 				}
 			}
