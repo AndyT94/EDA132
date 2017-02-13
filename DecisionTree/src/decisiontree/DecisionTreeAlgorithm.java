@@ -14,6 +14,7 @@ public class DecisionTreeAlgorithm {
 			return pluralityValue(examples);
 		} else {
 			Attribute A = importance(attributes, examples);
+			TreeNode root = new TreeNode(A);
 			return null;
 		}
 	}

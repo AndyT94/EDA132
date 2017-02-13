@@ -8,7 +8,7 @@ public class LeafNode implements Node {
 	}
 	
 	@Override
-	public String print(String level) {
+	public String print(String indent) {
 		return ": " + goal.toString();
 	}
 }

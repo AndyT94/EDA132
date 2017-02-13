@@ -2,6 +2,6 @@ package decisiontree;
 
 public interface Node {
 	
-	public String print(String level);
+	public String print(String indent);
 	
 }
