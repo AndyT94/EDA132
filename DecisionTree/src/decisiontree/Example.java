@@ -14,4 +14,8 @@ public class Example {
 	public String getValue(Attribute attribute) {
 		return data.get(attribute);
 	}
+	
+	public Goal getGoal() {
+		return goal;
+	}
 }

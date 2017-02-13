@@ -1,5 +1,7 @@
 package decisiontree;
 
-public class Node {
-
+public interface Node {
+	
+	public String print(String level);
+	
 }

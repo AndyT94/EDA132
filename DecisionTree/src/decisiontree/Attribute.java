@@ -11,6 +11,14 @@ public class Attribute {
 		this.values = values;
 	}
 
+	public String getName() {
+		return name;
+	}
+	
+	public Set<String> getValues() {
+		return values;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

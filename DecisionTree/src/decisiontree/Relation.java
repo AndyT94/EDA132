@@ -17,7 +17,11 @@ public class Relation {
 		return attributes;
 	}
 	
-	public List<Example> getData() {
+	public List<Example> getExamples() {
 		return data;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
