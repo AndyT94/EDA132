@@ -16,7 +16,7 @@ public class DecisionTreeParser {
 
 			String relation_name = null;
 			ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-			LinkedList<Data> data = new LinkedList<Data>();
+			LinkedList<Example> data = new LinkedList<Example>();
 			
 			while ((line = reader.readLine()) != null) {
 				if (!line.isEmpty() && !line.startsWith("%") && !line.startsWith("@data")) {
@@ -40,7 +40,7 @@ public class DecisionTreeParser {
 						Attribute goal_attr = attributes.get(split.length - 1);
 						String goal_value = split[split.length - 1];
 						Goal goal = new Goal(goal_attr, goal_value);
-						data.add(new Data(mapping, goal));
+						data.add(new Example(mapping, goal));
 					}
 				}
 			}

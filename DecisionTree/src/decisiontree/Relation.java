@@ -5,9 +5,9 @@ import java.util.List;
 public class Relation {
 	private String name;
 	private List<Attribute> attributes;
-	private List<Data> data;
+	private List<Example> data;
 	
-	public Relation(String name, List<Attribute> attributes, List<Data> data) {
+	public Relation(String name, List<Attribute> attributes, List<Example> data) {
 		this.name = name;
 		this.attributes = attributes;
 		this.data = data;
@@ -17,7 +17,7 @@ public class Relation {
 		return attributes;
 	}
 	
-	public List<Data> getData() {
+	public List<Example> getData() {
 		return data;
 	}
 }

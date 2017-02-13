@@ -2,11 +2,11 @@ package decisiontree;
 
 import java.util.Map;
 
-public class Data {
+public class Example {
 	private Map<Attribute, String> data;
 	private Goal goal;
 	
-	public Data(Map<Attribute, String> data, Goal goal) {
+	public Example(Map<Attribute, String> data, Goal goal) {
 		this.data = data;
 		this.goal = goal;
 	}
