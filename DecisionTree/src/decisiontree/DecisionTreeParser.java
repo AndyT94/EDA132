@@ -37,8 +37,8 @@ public class DecisionTreeParser {
 						for(int i = 0; i < data_file.length; i++) {
 							mapping.put(attributes.get(i), data_file[i]);
 						}
-						Attribute goal_attr = attributes.get(split.length - 1);
-						String goal_value = split[split.length - 1];
+						Attribute goal_attr = attributes.get(data_file.length - 1);
+						String goal_value = data_file[data_file.length - 1];
 						Goal goal = new Goal(goal_attr, goal_value);
 						data.add(new Example(mapping, goal));
 					}
