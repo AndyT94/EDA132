@@ -44,7 +44,7 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private Attribute importance(List<Attribute> attributes, List<Example> examples) {
-		double maxGain = Double.MIN_VALUE;
+		double maxGain = Double.NEGATIVE_INFINITY;
 		Attribute bestAttribute = null;
 
 		for (Attribute a : attributes) {

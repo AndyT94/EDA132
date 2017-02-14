@@ -20,6 +20,7 @@ public class DecisionTreeParser {
 			
 			while ((line = reader.readLine()) != null) {
 				if (!line.isEmpty() && !line.startsWith("%") && !line.startsWith("@data")) {
+					line = line.toLowerCase();
 					String[] split = line.split("\\s+");
 					if (split[0].equals("@relation")) {
 						relation_name = split[1];
@@ -32,7 +33,8 @@ public class DecisionTreeParser {
 						}
 						attributes.add(new Attribute(attr_name, values));
 					} else {
-						String[] data_file = split[0].split(",");
+						String noSpaceLine = line.replace("\\s+", "");
+						String[] data_file = noSpaceLine.split(",");
 						HashMap<Attribute, String> mapping = new HashMap<Attribute, String>();
 						for(int i = 0; i < data_file.length; i++) {
 							mapping.put(attributes.get(i), data_file[i]);
