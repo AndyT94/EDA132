@@ -11,4 +11,9 @@ public class LeafNode implements Node {
 	public String print(String indent) {
 		return ": " + goal.toString();
 	}
+
+	@Override
+	public boolean isLeafNode() {
+		return true;
+	}
 }
