@@ -1,5 +1,6 @@
 package decisiontree;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +16,23 @@ public class DecisionTreeAlgorithm {
 		} else {
 			Attribute A = importance(attributes, examples);
 			TreeNode root = new TreeNode(A);
-			return null;
+			for (String value : A.getValues()) {
+				ArrayList<Example> exs = new ArrayList<Example>();
+				for(Example e : examples) {
+					
+				}
+				
+				ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
+				for(Attribute a : attributes) {
+					if(!a.equals(A)) {
+						newAttributes.add(a);
+					}
+				}
+				
+				Node subTree = decisionTreeLearning(exs, newAttributes, examples);
+				root.addBranch(value, subTree);
+			}
+			return root;
 		}
 	}
 
