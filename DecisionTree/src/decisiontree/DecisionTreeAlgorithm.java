@@ -45,7 +45,7 @@ public class DecisionTreeAlgorithm {
 
 	private Attribute importance(List<Attribute> attributes, List<Example> examples) {
 		double maxGain = Double.MIN_VALUE;
-		Attribute bestAttribute = attributes.get(0);
+		Attribute bestAttribute = null;
 
 		for (Attribute a : attributes) {
 			if (!a.equals(goal)) {
@@ -61,25 +61,39 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private double gain(Attribute attr, List<Example> examples) {
-		System.out.println(attr.getName() + " : " + remainder(attr, examples));
-		return remainder(attr, examples);
+		double[] count = count(attr, examples);
+		double p = count[0];
+		double n = count[1];
+		return B(p / (p + n)) - remainder(attr, examples);
+	}
+
+	private double[] count(Attribute attr, List<Example> examples) {
+		double[] result = new double[2];
+		for(Example e : examples) {
+			if (e.getGoal().getValue().equals("yes")) {
+				result[0]++;
+			} else {
+				result[1]++;
+			}
+		}
+		return result;
 	}
 
 	private double remainder(Attribute attr, List<Example> examples) {
 		double sum = 0;
 		for (String value : attr.getValues()) {
-			double p = 0;
-			double n = 0;
+			double pk = 0;
+			double nk = 0;
 			for (Example e : examples) {
 				if (e.hasAttributeValue(attr, value)) {
 					if (e.getGoal().getValue().equals("yes")) {
-						p++;
+						pk++;
 					} else {
-						n++;
+						nk++;
 					}
 				}
 			}
-			sum = ((p + n) / examples.size()) * B(p / (p + n));
+			sum += ((pk + nk) / examples.size()) * B(pk / (pk + nk));
 		}
 		return sum;
 	}
