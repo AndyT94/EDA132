@@ -18,4 +18,8 @@ public class Example {
 	public Goal getGoal() {
 		return goal;
 	}
+
+	public boolean hasAttributeValue(Attribute attr, String value) {
+		return data.get(attr).equals(value);
+	}
 }

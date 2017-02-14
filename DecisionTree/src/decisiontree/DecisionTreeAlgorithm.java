@@ -19,9 +19,9 @@ public class DecisionTreeAlgorithm {
 			for (String value : A.getValues()) {
 				ArrayList<Example> exs = new ArrayList<Example>();
 				for(Example e : examples) {
-					//if(e.hasAttributeValue(A, value)) {
-					//	exs.add(e);
-					//}
+					if(e.hasAttributeValue(A, value)) {
+						exs.add(e);
+					}
 				}
 				
 				ArrayList<Attribute> newAttributes = new ArrayList<Attribute>();
