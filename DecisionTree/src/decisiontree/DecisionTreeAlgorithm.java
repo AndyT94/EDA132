@@ -84,15 +84,11 @@ public class DecisionTreeAlgorithm {
 		return sum;
 	}
 
-	// private double entropy(Attribute attr, List<Example> examples) {
-	// double p = 0;
-	// double n = 0;
-	//
-	// return B(p / (p + n));
-	// }
-
 	private double B(double q) {
-		return -(q * log2(q) + (1 - q) * log2(1 - q));
+		if(q > 0 && q < 1) {
+			return -(q * log2(q) + (1 - q) * log2(1 - q));
+		}
+		return 0;
 	}
 
 	private double log2(double q) {
