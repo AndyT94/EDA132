@@ -179,7 +179,7 @@ public class DecisionTreeAlgorithm {
 						exs.add(e);
 					}
 				}
-				newTree.addBranch(value, pruning(newTree.getNode(value), exs));
+				newTree.addBranch(value, pruning(hypo.getNode(value), exs));
 			}
 			
 			if(newTree.hasOnlyLeafNodes()) {
