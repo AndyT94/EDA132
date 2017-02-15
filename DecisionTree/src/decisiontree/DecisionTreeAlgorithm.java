@@ -72,18 +72,6 @@ public class DecisionTreeAlgorithm {
 		return B(p / (p + n)) - remainder(attr, examples);
 	}
 
-	// private double[] count(Attribute attr, List<Example> examples) {
-	// double[] result = new double[2];
-	// for(Example e : examples) {
-	// if (e.getGoal().getValue().equals("yes")) {
-	// result[0]++;
-	// } else {
-	// result[1]++;
-	// }
-	// }
-	// return result;
-	// }
-
 	private double remainder(Attribute attr, List<Example> examples) {
 		double sum = 0;
 		for (String value : attr.getValues()) {
@@ -147,7 +135,6 @@ public class DecisionTreeAlgorithm {
 		return new LeafNode(result);
 	}
 
-	// TODO: FIX
 	public Node pruning(Node tree, List<Example> examples) {
 		if (tree.isLeafNode()) {
 			return tree;
@@ -178,11 +165,13 @@ public class DecisionTreeAlgorithm {
 			double chisquare = ChiSquareDist.inverseF(degrees, 0.95);
 			
 			if(deviation < chisquare) {
-				
+				return pluralityValue(examples);
+			} else {
+				return hypo;
 			}
-			System.out.println("DEV: " + deviation);
-			System.out.println(chisquare + " " + hypo.getAttribute().getName());
+
 		} else {
+			TreeNode newTree = new TreeNode(hypo.getAttribute());
 			for (String value : hypo.getBranches()) {
 				ArrayList<Example> exs = new ArrayList<Example>();
 				for (Example e : examples) {
@@ -190,15 +179,15 @@ public class DecisionTreeAlgorithm {
 						exs.add(e);
 					}
 				}
-				if (hypo.getNode(value) != null) {
-					Node tmp = pruning(hypo.getNode(value), exs);
-					if (!tmp.isLeafNode()) {
-						hypo = (TreeNode) tmp;
-					}
-				}
+				newTree.addBranch(value, pruning(newTree.getNode(value), exs));
+			}
+			
+			if(newTree.hasOnlyLeafNodes()) {
+				return pruning(newTree, examples);
+			} else {
+				return newTree;
 			}
 		}
-		return hypo;
 	}
 
 	private double[] count(List<Example> examples) {
