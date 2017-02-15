@@ -3,20 +3,21 @@ package decisiontree;
 public class Goal {
 	private Attribute attribute;
 	private String value;
-	
+
 	public Goal(Attribute attribute, String value) {
 		this.attribute = attribute;
 		this.value = value;
 	}
 
-	public String toString() {
-		return value;
-	}
-	
+	/**
+	 * Returns the value of this goal
+	 * 
+	 * @return A string
+	 */
 	public String getValue() {
 		return value;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
