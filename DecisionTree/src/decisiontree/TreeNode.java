@@ -2,6 +2,7 @@ package decisiontree;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class TreeNode implements Node {
 	private Attribute attribute;
@@ -38,5 +39,26 @@ public class TreeNode implements Node {
 	@Override
 	public boolean isLeafNode() {
 		return false;
+	}
+
+	public boolean hasOnlyLeafNodes() {
+		for(Node n : branches.values()) {
+			if(!n.isLeafNode()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public Set<String> getBranches() {
+		return branches.keySet();
+	}
+
+	public Attribute getAttribute() {
+		return attribute;
+	}
+
+	public Node getNode(String branch) {
+		return branches.get(branch);
 	}
 }

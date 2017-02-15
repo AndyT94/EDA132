@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
+import umontreal.iro.lecuyer.probdist.ChiSquareDist;
+import edu.rit.numeric.Statistics;
+
 public class DecisionTreeAlgorithm {
 	private Attribute goal;
-	
+
 	public DecisionTreeAlgorithm(Attribute goal) {
 		this.goal = goal;
 	}
-	
+
 	public Node decisionTreeLearning(List<Example> examples, List<Attribute> attributes, List<Example> parentExamples) {
 		if (examples.isEmpty()) {
 			return pluralityValue(parentExamples);
@@ -61,23 +66,23 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private double gain(Attribute attr, List<Example> examples) {
-		double[] count = count(attr, examples);
+		double[] count = count(examples);
 		double p = count[0];
 		double n = count[1];
 		return B(p / (p + n)) - remainder(attr, examples);
 	}
 
-	private double[] count(Attribute attr, List<Example> examples) {
-		double[] result = new double[2];
-		for(Example e : examples) {
-			if (e.getGoal().getValue().equals("yes")) {
-				result[0]++;
-			} else {
-				result[1]++;
-			}
-		}
-		return result;
-	}
+	// private double[] count(Attribute attr, List<Example> examples) {
+	// double[] result = new double[2];
+	// for(Example e : examples) {
+	// if (e.getGoal().getValue().equals("yes")) {
+	// result[0]++;
+	// } else {
+	// result[1]++;
+	// }
+	// }
+	// return result;
+	// }
 
 	private double remainder(Attribute attr, List<Example> examples) {
 		double sum = 0;
@@ -99,7 +104,7 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private double B(double q) {
-		if(q > 0 && q < 1) {
+		if (q > 0 && q < 1) {
 			return -(q * log2(q) + (1 - q) * log2(1 - q));
 		}
 		return 0;
@@ -141,12 +146,70 @@ public class DecisionTreeAlgorithm {
 
 		return new LeafNode(result);
 	}
-	
-	public Node pruning(Node tree) {
+
+	// TODO: FIX
+	public Node pruning(Node tree, List<Example> examples) {
 		if (tree.isLeafNode()) {
 			return tree;
-		} 
-		
-		
+		}
+
+		TreeNode hypo = (TreeNode) tree;
+		if (hypo.hasOnlyLeafNodes()) {
+			double deviation = 0;
+			for (String value : hypo.getBranches()) {
+				ArrayList<Example> exs = new ArrayList<Example>();
+				for (Example e : examples) {
+					if (e.hasAttributeValue(hypo.getAttribute(), value)) {
+						exs.add(e);
+					}
+				}
+				double[] counthat = count(exs);
+				double[] countExample = count(examples);
+				double pkhat = countExample[0] * ((counthat[0] + counthat[1]) / examples.size());
+				double nkhat = countExample[1] * ((counthat[0] + counthat[1]) / examples.size());
+
+				deviation += Math.pow(counthat[0] - pkhat, 2) / pkhat + Math.pow(counthat[1] - nkhat, 2) / nkhat;
+			}
+
+			int degrees = examples.size();
+			if (degrees > 1) {
+				degrees--;
+			}
+			double chisquare = ChiSquareDist.inverseF(degrees, 0.95);
+			
+			if(deviation < chisquare) {
+				
+			}
+			System.out.println("DEV: " + deviation);
+			System.out.println(chisquare + " " + hypo.getAttribute().getName());
+		} else {
+			for (String value : hypo.getBranches()) {
+				ArrayList<Example> exs = new ArrayList<Example>();
+				for (Example e : examples) {
+					if (e.hasAttributeValue(hypo.getAttribute(), value)) {
+						exs.add(e);
+					}
+				}
+				if (hypo.getNode(value) != null) {
+					Node tmp = pruning(hypo.getNode(value), exs);
+					if (!tmp.isLeafNode()) {
+						hypo = (TreeNode) tmp;
+					}
+				}
+			}
+		}
+		return hypo;
+	}
+
+	private double[] count(List<Example> examples) {
+		double[] result = new double[2];
+		for (Example e : examples) {
+			if (e.getGoal().getValue().equals("yes")) {
+				result[0]++;
+			} else {
+				result[1]++;
+			}
+		}
+		return result;
 	}
 }
