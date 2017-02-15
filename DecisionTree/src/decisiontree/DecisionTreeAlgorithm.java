@@ -141,4 +141,12 @@ public class DecisionTreeAlgorithm {
 
 		return new LeafNode(result);
 	}
+	
+	public Node pruning(Node tree) {
+		if (tree.isLeafNode()) {
+			return tree;
+		} 
+		
+		
+	}
 }
