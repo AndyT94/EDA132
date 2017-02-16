@@ -61,9 +61,8 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private double gain(Attribute attr, List<Example> examples) {
-		double[] count = count(examples);
-		double p = count[0];
-		double n = count[1];
+		double p = countPos(examples);
+		double n = countNeg(examples);
 		return B(p / (p + n)) - remainder(attr, examples);
 	}
 
@@ -143,15 +142,16 @@ public class DecisionTreeAlgorithm {
 						exs.add(e);
 					}
 				}
-				double[] counthat = count(exs);
-				double[] countExample = count(examples);
-				double pkhat = countExample[0] * ((counthat[0] + counthat[1]) / examples.size());
-				double nkhat = countExample[1] * ((counthat[0] + counthat[1]) / examples.size());
 
+				double pk = countPos(exs);
+				double nk = countNeg(exs);
+				double p = countPos(examples);
+				double n = countNeg(examples);
+				double pkhat = p * ((pk + nk) / examples.size());
+				double nkhat = n * ((pk + nk) / examples.size());
 				if(pkhat > 0 && nkhat > 0) {
-					deviation += Math.pow(counthat[0] - pkhat, 2) / pkhat + Math.pow(counthat[1] - nkhat, 2) / nkhat;
-				}
-				
+					deviation += Math.pow(pk - pkhat, 2) / pkhat + Math.pow(nk - nkhat, 2) / nkhat;
+				}	
 			}
 
 			int degrees = hypo.getBranches().size();
@@ -186,13 +186,21 @@ public class DecisionTreeAlgorithm {
 		}
 	}
 
-	private double[] count(List<Example> examples) {
-		double[] result = new double[2];
+	private double countPos(List<Example> examples) {
+		double result = 0;
 		for (Example e : examples) {
 			if (e.getGoal().getValue().equals("yes")) {
-				result[0]++;
-			} else {
-				result[1]++;
+				result++;
+			} 
+		}
+		return result;
+	}
+	
+	private double countNeg(List<Example> examples) {
+		double result = 0;
+		for (Example e : examples) {
+			if (e.getGoal().getValue().equals("no")) {
+				result++;
 			}
 		}
 		return result;

@@ -12,7 +12,7 @@ public class DecisionTreeMain {
 				r.getAttributes().get(r.getAttributes().size() - 1));
 		Node node = decisionTree.decisionTreeLearning(r.getExamples(), r.getAttributes(), r.getExamples());
 		System.out.println(node.print(""));
-		System.out.println("========================================================");
+		System.out.println("========================PRUNING========================");
 		Node prune = decisionTree.pruning(node, r.getExamples());
 		System.out.println(prune.print(""));
 	}
