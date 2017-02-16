@@ -3,6 +3,10 @@ package decisiontree;
 public class DecisionTreeMain {
 
 	public static void main(String[] args) {
+//		if(args.length != 1) {
+//			System.out.println("Wrong parameter length");
+//			return;
+//		}
 		Relation r = DecisionTreeParser.parse("data/restaurant.arff");
 		DecisionTreeAlgorithm decisionTree = new DecisionTreeAlgorithm(
 				r.getAttributes().get(r.getAttributes().size() - 1));

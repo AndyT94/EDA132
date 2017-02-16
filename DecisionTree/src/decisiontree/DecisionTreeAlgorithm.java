@@ -1,13 +1,9 @@
 package decisiontree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import umontreal.iro.lecuyer.probdist.ChiSquareDist;
-import edu.rit.numeric.Statistics;
 
 public class DecisionTreeAlgorithm {
 	private Attribute goal;
@@ -115,23 +111,21 @@ public class DecisionTreeAlgorithm {
 	private Node pluralityValue(List<Example> examples) {
 		Goal result = null;
 		int maxPlurality = 0;
-		HashMap<Goal, Integer> count = new HashMap<Goal, Integer>();
-
-		for (Example e : examples) {
-			int i = 1;
+		int positives = 0;
+		int negatives = 0;
+		
+		for(Example e : examples) {
 			Goal g = e.getGoal();
-			if (count.containsKey(g)) {
-				i = count.get(g);
-				i += 1;
-				count.put(g, i);
+			if (g.getValue().equals("yes")) {
+				positives++;
 			} else {
-				count.put(g, i);
+				negatives++;
 			}
-			if (i > maxPlurality) {
+			if (positives > maxPlurality || negatives > maxPlurality) {
 				result = g;
+				maxPlurality++;
 			}
 		}
-
 		return new LeafNode(result);
 	}
 
@@ -155,10 +149,13 @@ public class DecisionTreeAlgorithm {
 				double pkhat = countExample[0] * ((counthat[0] + counthat[1]) / examples.size());
 				double nkhat = countExample[1] * ((counthat[0] + counthat[1]) / examples.size());
 
-				deviation += Math.pow(counthat[0] - pkhat, 2) / pkhat + Math.pow(counthat[1] - nkhat, 2) / nkhat;
+				if(pkhat > 0 && nkhat > 0) {
+					deviation += Math.pow(counthat[0] - pkhat, 2) / pkhat + Math.pow(counthat[1] - nkhat, 2) / nkhat;
+				}
+				
 			}
 
-			int degrees = examples.size();
+			int degrees = hypo.getBranches().size();
 			if (degrees > 1) {
 				degrees--;
 			}
