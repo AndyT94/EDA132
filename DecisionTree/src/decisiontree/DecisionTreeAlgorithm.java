@@ -2,7 +2,6 @@ package decisiontree;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import umontreal.iro.lecuyer.probdist.ChiSquareDist;
 
 public class DecisionTreeAlgorithm {
