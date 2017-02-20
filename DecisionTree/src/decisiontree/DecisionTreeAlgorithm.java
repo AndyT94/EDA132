@@ -1,13 +1,8 @@
 package decisiontree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
 import umontreal.iro.lecuyer.probdist.ChiSquareDist;
-import edu.rit.numeric.Statistics;
 
 public class DecisionTreeAlgorithm {
 	private Attribute goal;
@@ -66,9 +61,8 @@ public class DecisionTreeAlgorithm {
 	}
 
 	private double gain(Attribute attr, List<Example> examples) {
-		double[] count = count(examples);
-		double p = count[0];
-		double n = count[1];
+		double p = countPos(examples);
+		double n = countNeg(examples);
 		return B(p / (p + n)) - remainder(attr, examples);
 	}
 
@@ -115,23 +109,21 @@ public class DecisionTreeAlgorithm {
 	private Node pluralityValue(List<Example> examples) {
 		Goal result = null;
 		int maxPlurality = 0;
-		HashMap<Goal, Integer> count = new HashMap<Goal, Integer>();
-
-		for (Example e : examples) {
-			int i = 1;
+		int positives = 0;
+		int negatives = 0;
+		
+		for(Example e : examples) {
 			Goal g = e.getGoal();
-			if (count.containsKey(g)) {
-				i = count.get(g);
-				i += 1;
-				count.put(g, i);
+			if (g.getValue().equals("yes")) {
+				positives++;
 			} else {
-				count.put(g, i);
+				negatives++;
 			}
-			if (i > maxPlurality) {
+			if (positives > maxPlurality || negatives > maxPlurality) {
 				result = g;
+				maxPlurality++;
 			}
 		}
-
 		return new LeafNode(result);
 	}
 
@@ -150,15 +142,19 @@ public class DecisionTreeAlgorithm {
 						exs.add(e);
 					}
 				}
-				double[] counthat = count(exs);
-				double[] countExample = count(examples);
-				double pkhat = countExample[0] * ((counthat[0] + counthat[1]) / examples.size());
-				double nkhat = countExample[1] * ((counthat[0] + counthat[1]) / examples.size());
 
-				deviation += Math.pow(counthat[0] - pkhat, 2) / pkhat + Math.pow(counthat[1] - nkhat, 2) / nkhat;
+				double pk = countPos(exs);
+				double nk = countNeg(exs);
+				double p = countPos(examples);
+				double n = countNeg(examples);
+				double pkhat = p * ((pk + nk) / examples.size());
+				double nkhat = n * ((pk + nk) / examples.size());
+				if(pkhat > 0 && nkhat > 0) {
+					deviation += Math.pow(pk - pkhat, 2) / pkhat + Math.pow(nk - nkhat, 2) / nkhat;
+				}	
 			}
 
-			int degrees = examples.size();
+			int degrees = hypo.getBranches().size();
 			if (degrees > 1) {
 				degrees--;
 			}
@@ -190,13 +186,21 @@ public class DecisionTreeAlgorithm {
 		}
 	}
 
-	private double[] count(List<Example> examples) {
-		double[] result = new double[2];
+	private double countPos(List<Example> examples) {
+		double result = 0;
 		for (Example e : examples) {
 			if (e.getGoal().getValue().equals("yes")) {
-				result[0]++;
-			} else {
-				result[1]++;
+				result++;
+			} 
+		}
+		return result;
+	}
+	
+	private double countNeg(List<Example> examples) {
+		double result = 0;
+		for (Example e : examples) {
+			if (e.getGoal().getValue().equals("no")) {
+				result++;
 			}
 		}
 		return result;
