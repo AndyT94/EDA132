@@ -49,4 +49,8 @@ public class State {
 	public boolean hasSameDirection(State other) {
 		return direction == other.direction;
 	}
+
+	public Point getPoint() {
+		return point;
+	}
 }

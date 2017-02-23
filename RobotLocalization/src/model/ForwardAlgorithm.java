@@ -22,7 +22,7 @@ public class ForwardAlgorithm {
 		stateProbabilities = new double[nbrStates];
 
 		for (int i = 0; i < rows * cols; i++) {
-			Point p = new Point(i % cols, i / cols);
+			Point p = new Point(i / cols, i % cols);
 			for (int j = State.NORTH; j < State.NORTH + 4; j++) {
 				State state = new State(p, j);
 				int index = i * 4 + j;

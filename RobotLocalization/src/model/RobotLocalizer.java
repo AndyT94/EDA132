@@ -6,12 +6,14 @@ public class RobotLocalizer implements EstimatorInterface {
 
 	private int rows, cols, head;
 	private ForwardAlgorithm algo;
+	private Robot robot;
 	
 	public RobotLocalizer( int rows, int cols, int head) {
 		this.rows = rows;
 		this.cols = cols;
 		this.head = head;
 		algo = new ForwardAlgorithm(rows, cols, head);
+		robot = new Robot(rows, cols, head);
 	}	
 	
 	@Override
@@ -37,7 +39,7 @@ public class RobotLocalizer implements EstimatorInterface {
 
 	@Override
 	public int[] getCurrentTruePosition() {
-		return null;
+		return robot.getCurrentPosition();
 	}
 
 	@Override
