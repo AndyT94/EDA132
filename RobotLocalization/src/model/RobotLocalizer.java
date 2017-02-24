@@ -33,8 +33,8 @@ public class RobotLocalizer implements EstimatorInterface {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		
+		robot.move();
+		robot.calcSensorOutput();
 	}
 
 	@Override
@@ -44,8 +44,7 @@ public class RobotLocalizer implements EstimatorInterface {
 
 	@Override
 	public int[] getCurrentReading() {
-		// TODO Auto-generated method stub
-		return null;
+		return robot.getCurrentReading();
 	}
 
 	@Override
@@ -63,5 +62,4 @@ public class RobotLocalizer implements EstimatorInterface {
 	public double getTProb(int x, int y, int h, int nX, int nY, int nH) {
 		return algo.getTProb(x, y, h, nX, nY, nH);
 	}
-
 }
