@@ -62,8 +62,12 @@ public class ForwardAlgorithm {
 	public double getCurrentProb(int x, int y) {
 		double sum = 0;
 		for (int i = x + y; i < x + y + 4; i++) {
-			sum += stateProbabilities[x + y];
+			sum += stateProbabilities[i];
 		}
 		return sum;
+	}
+
+	public void updateStateProbability(int[] reading) {
+		
 	}
 }

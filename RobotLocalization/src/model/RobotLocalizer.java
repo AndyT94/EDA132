@@ -35,6 +35,7 @@ public class RobotLocalizer implements EstimatorInterface {
 	public void update() {
 		robot.move();
 		robot.calcSensorOutput();
+		algo.updateStateProbability(robot.getCurrentReading());
 	}
 
 	@Override
@@ -54,8 +55,7 @@ public class RobotLocalizer implements EstimatorInterface {
 
 	@Override
 	public double getOrXY(int rX, int rY, int x, int y) {
-		// TODO Auto-generated method stub
-		return 0;
+		return robot.getOrXY(rX, rY, x, y);
 	}
 
 	@Override
