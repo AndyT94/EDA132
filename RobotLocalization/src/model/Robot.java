@@ -45,8 +45,8 @@ public class Robot {
 
 	public void calcSensorOutput() {
 		double probability = rand.nextDouble();
-		ArrayList<Point> firstField = getFirstField(currState.getPoint());
-		ArrayList<Point> secondField = getSecondField(currState.getPoint());
+		ArrayList<Point> firstField = currState.getPoint().getFirstField(rows, cols);
+		ArrayList<Point> secondField = currState.getPoint().getSecondField(rows, cols);
 
 		if (probability <= 0.1) {
 			currReading = currState.getPoint();
@@ -61,57 +61,11 @@ public class Robot {
 		}
 	}
 
-	private ArrayList<Point> getSecondField(Point point) {
-		ArrayList<Point> secondField = new ArrayList<Point>();
-
-		for (int i = -2; i < 3; i++) {
-			Point p = new Point(point.getY() - 2, point.getX() + i);
-			if (isInsideBorders(p)) {
-				secondField.add(p);
-			}
-
-			p = new Point(point.getY() + 2, point.getX() + i);
-			if (isInsideBorders(p)) {
-				secondField.add(p);
-			}
-		}
-
-		for (int i = -1; i < 2; i++) {
-			Point p = new Point(point.getY() + i, point.getX() - 2);
-			if (isInsideBorders(p)) {
-				secondField.add(p);
-			}
-
-			p = new Point(point.getY() + i, point.getX() + 2);
-			if (isInsideBorders(p)) {
-				secondField.add(p);
-			}
-		}
-		return secondField;
-	}
-
-	private ArrayList<Point> getFirstField(Point point) {
-		ArrayList<Point> firstField = new ArrayList<Point>();
-
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				Point p = new Point(point.getY() + i, point.getX() + j);
-				if (isInsideBorders(p) && !point.equals(p)) {
-					firstField.add(p);
-				}
-			}
-		}
-		return firstField;
-	}
-
-	private boolean isInsideBorders(Point p) {
-		return p.getX() >= 0 && p.getX() < cols && p.getY() >= 0 && p.getY() < rows;
-	}
 
 	public double getOrXY(int rX, int rY, int x, int y) {
 		Point truePoint = new Point(x, y);
-		ArrayList<Point> firstField = getFirstField(truePoint);
-		ArrayList<Point> secondField = getSecondField(truePoint);
+		ArrayList<Point> firstField = truePoint.getFirstField(rows, cols);
+		ArrayList<Point> secondField = truePoint.getSecondField(rows, cols);
 		Point p = new Point(rX, rY);
 		
 		if(truePoint.equals(p)) {

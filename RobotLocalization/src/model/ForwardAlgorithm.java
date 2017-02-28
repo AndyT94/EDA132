@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class ForwardAlgorithm {
 	private int rows;
 	private int cols;
@@ -68,6 +70,46 @@ public class ForwardAlgorithm {
 	}
 
 	public void updateStateProbability(int[] reading) {
+		Point sensorPoint = new Point(reading[0], reading[1]);
+		ArrayList<Point> firstField = sensorPoint.getFirstField(rows, cols);
+		ArrayList<Point> secondField = sensorPoint.getSecondField(rows, cols);		
+		double[] sensorProbability = calcSensorProbability(sensorPoint, firstField, secondField);
 		
+		double[] tmp = new double[stateProbabilities.length];
+		double alpha = 0;
+		for(int i = 0; i < stateProbabilities.length; i++) {
+			tmp[i] = 0;
+			for(int j = 0; j < stateProbabilities.length; j++) {
+				tmp[i] += sensorProbability[i] * transitionMatrix[j][i] * stateProbabilities[j];
+			}
+			alpha += tmp[i];
+		}
+		
+		for(int i = 0; i < tmp.length; i++) {
+			stateProbabilities[i] = tmp[i] / alpha;
+		}
+	}
+
+	private double[] calcSensorProbability(Point sensorPoint, ArrayList<Point> firstField,
+			ArrayList<Point> secondField) {
+		double[] sensorProbability = new double[states.length];
+		for (int i = 0; i < states.length; i++) {
+			Point statePoint = states[i].getPoint();
+			
+			if(sensorPoint.getY() == -1 || sensorPoint.getX() == -1) {
+				ArrayList<Point> stateFirstField = statePoint.getFirstField(rows, cols);
+				ArrayList<Point> stateSecondField = statePoint.getSecondField(rows, cols);
+				sensorProbability[i] = (1.0 - 0.1 - 0.05 * stateFirstField.size() - 0.025 * stateSecondField.size()) / head;
+			} else if (statePoint.equals(sensorPoint)) {
+				sensorProbability[i] = 0.1 / head;
+			} else if (firstField.contains(statePoint)) {
+				sensorProbability[i] = 0.05 / head;
+			} else if (secondField.contains(statePoint)) {
+				sensorProbability[i] = 0.025 / head;
+			} else {
+				sensorProbability[i] = 0.0;
+			}
+		}
+		return sensorProbability;
 	}
 }
