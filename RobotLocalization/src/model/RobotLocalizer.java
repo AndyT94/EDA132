@@ -66,7 +66,8 @@ public class RobotLocalizer implements EstimatorInterface {
 		if(maxPoint.getY() == truePos[0] && maxPoint.getX() == truePos[1]) {
 			correct++;
 		}
-		System.out.println("CORRECT: " + (double) correct / updates);
+		System.out.println("CORRECT RATIO: " + (double) correct / updates);
+		System.out.println();
 	}
 
 	@Override
