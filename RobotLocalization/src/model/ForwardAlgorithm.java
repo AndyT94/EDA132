@@ -58,12 +58,12 @@ public class ForwardAlgorithm {
 	}
 
 	public double getTProb(int x, int y, int h, int nX, int nY, int nH) {
-		return transitionMatrix[y * rows + x * cols * head + h][nY * rows + nX * cols * head + nH];
+		return transitionMatrix[x * cols * head + y * head + h][nX * cols * head + nY * head + nH];
 	}
 
 	public double getCurrentProb(int x, int y) {
 		double sum = 0;
-		int start = y * rows + x * cols * head;
+		int start = x * cols * head + y * head;
 		for (int i = start; i < start + head; i++) {
 			sum += stateProbabilities[i];
 		}
